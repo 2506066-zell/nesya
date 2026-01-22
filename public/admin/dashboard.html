@@ -50,20 +50,15 @@
         </div>
     </main>
 
+    <script src="../js/auth.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('user'));
+        document.addEventListener('DOMContentLoaded', async () => {
+            await protectAdminPage();
 
-            if (!user || user.role !== 'admin') {
-                localStorage.removeItem('user');
-                window.location.href = '/login.html';
-                return;
-            }
-
+            // Sisa logika halaman dasbor, misalnya memuat statistik
             document.getElementById('logout-button').addEventListener('click', (e) => {
                 e.preventDefault();
-                localStorage.removeItem('user');
-                window.location.href = '/login.html';
+                logout();
             });
         });
     </script>

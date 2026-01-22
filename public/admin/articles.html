@@ -67,20 +67,14 @@
         </div>
     </main>
 
+    <script src="../js/auth.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('user'));
-
-            if (!user || user.role !== 'admin') {
-                localStorage.removeItem('user');
-                window.location.href = '/login.html';
-                return;
-            }
+        document.addEventListener('DOMContentLoaded', async () => {
+            await protectAdminPage();
 
             document.getElementById('logout-button').addEventListener('click', (e) => {
                 e.preventDefault();
-                localStorage.removeItem('user');
-                window.location.href = '/login.html';
+                logout();
             });
 
             // Logika untuk memuat artikel akan ditambahkan di sini
