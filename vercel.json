@@ -3,9 +3,5 @@
     "routes": [
         { "src": "/(.*)", "dest": "/public/$1" },
         { "src": "/api/(.*)", "dest": "/api/$1" }
-    ],
-    "env": {
-        "POSTGRES_URL_NON_POOLING": "@postgres_url_non_pooling",
-        "JWT_SECRET": "@jwt_secret"
-    }
+    ]
 }
