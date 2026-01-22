@@ -38,10 +38,11 @@ export default async function handler(req, res) {
         // Jangan kirim password hash ke client
         const { password: _, ...userWithoutPassword } = user;
 
-        return res.status(200).json({ 
-            message: 'Login successful', 
+        return res.status(200).json({
+            success: true,
+            message: 'Login successful',
             user: userWithoutPassword,
-            token: token 
+            token: token
         });
 
     } catch (error) {

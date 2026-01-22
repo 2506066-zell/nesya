@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
-    const errorMessage = document.getElementById('error-message');
+    const messageDiv = document.getElementById('error-message');
 
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        errorMessage.style.display = 'none';
+        messageDiv.textContent = '';
+        messageDiv.style.display = 'none';
 
         const username = loginForm.username.value;
         const password = loginForm.password.value;
@@ -20,23 +21,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
 
-            if (!response.ok || !data.success) {
+            if (!response.ok) {
                 throw new Error(data.message || 'Login gagal.');
             }
 
-            // Simpan data user ke localStorage
+            // Simpan token ke localStorage
+            localStorage.setItem('token', data.token);
+            // Simpan juga data user jika perlu
             localStorage.setItem('user', JSON.stringify(data.user));
 
             // Redirect berdasarkan role
             if (data.user.role === 'admin') {
-                window.location.href = '/admin/dashboard.html'; // Path absolut dari root
+                window.location.href = '/admin/dashboard.html';
             } else {
-                window.location.href = '/user/home.html'; // Path absolut dari root
+                window.location.href = '/user/home.html';
             }
 
         } catch (error) {
-            errorMessage.textContent = error.message;
-            errorMessage.style.display = 'block';
+            messageDiv.textContent = error.message;
+            messageDiv.style.display = 'block';
         }
     });
 });
