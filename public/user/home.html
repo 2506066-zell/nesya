@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda - Website Edukasi</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Website Edukasi</h1>
+        <nav>
+            <ul>
+                <li><a href="/user/home.html">Home</a></li>
+                <li><a href="/articles">Artikel</a></li>
+                <li><a href="/quiz">Kuis</a></li>
+                <li><a href="/books">Peminjaman Buku</a></li>
+                <li><a href="#" id="logout-btn">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Selamat Datang, <span id="username"></span>!</h2>
+        <p>Anda telah berhasil login sebagai pengguna.</p>
+    </main>
+    <footer>
+        <p>&copy; 2024 Website Edukasi</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            // Proteksi halaman
+            if (!user) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            document.getElementById('username').textContent = user.username;
+
+            // Fungsi logout
+            const logoutBtn = document.getElementById('logout-btn');
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem('user');
+                window.location.href = '/login.html';
+            });
+        });
+    </script>
+</body>
+</html>

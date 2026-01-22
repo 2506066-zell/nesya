@@ -1,0 +1,10 @@
+# Ignore dependencies
+node_modules
+
+# Ignore environment variables
+.env
+.env.local
+
+# Ignore Vercel deployment files
+.vercel
+.env*.local

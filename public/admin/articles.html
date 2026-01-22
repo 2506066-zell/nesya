@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Artikel - Admin IPM Panawuan</title>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="dashboard.html" class="logo">IPM Admin</a>
+        <ul class="nav-menu">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="articles.html" class="active">Artikel</a></li>
+            <li><a href="quiz.html">Kuis</a></li>
+            <li><a href="#">Peminjaman</a></li>
+            <li><a href="#">Anggota</a></li>
+        </ul>
+        <div class="logout">
+            <a href="#" id="logout-button" class="btn btn-secondary">Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h1 class="page-title">Manajemen Artikel</h1>
+            <a href="#" class="btn btn-primary">Tambah Artikel Baru</a>
+        </div>
+
+        <div class="card">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Judul Artikel</th>
+                            <th>Penulis</th>
+                            <th>Tanggal Publikasi</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="articles-table-body">
+                        <!-- Data akan dimuat oleh JavaScript -->
+                        <tr>
+                            <td>Pentingnya Literasi Digital untuk Kader</td>
+                            <td>Admin</td>
+                            <td>2024-05-20</td>
+                            <td>Dipublikasikan</td>
+                            <td class="table-actions">
+                                <a href="#" class="btn btn-secondary">Edit</a>
+                                <a href="#" class="btn btn-danger">Hapus</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Meneladani Akhlak Rasulullah di Era Modern</td>
+                            <td>Admin</td>
+                            <td>2024-05-18</td>
+                            <td>Draft</td>
+                            <td class="table-actions">
+                                <a href="#" class="btn btn-secondary">Edit</a>
+                                <a href="#" class="btn btn-danger">Hapus</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (!user || user.role !== 'admin') {
+                localStorage.removeItem('user');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            document.getElementById('logout-button').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('user');
+                window.location.href = '/login.html';
+            });
+
+            // Logika untuk memuat artikel akan ditambahkan di sini
+        });
+    </script>
+</body>
+</html>

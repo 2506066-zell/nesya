@@ -1,0 +1,65 @@
+const { getDbPool } = require('../lib/db');
+const auth = require('../middleware/auth');
+
+async function handler(req, res) {
+    if (req.method !== 'GET') {
+        return res.status(405).json({ message: 'Method not allowed' });
+    }
+
+    const pool = getDbPool();
+    try {
+        // 1. Article Stats
+        const { rows: [articleStats] } = await pool.query('SELECT COUNT(*) AS total_articles FROM articles');
+
+        // 2. Quiz Stats
+        const { rows: [quizQuestionStats] } = await pool.query('SELECT COUNT(*) AS total_questions FROM quiz_questions');
+        const { rows: [quizAnswerStats] } = await pool.query('SELECT COUNT(*) AS total_answers FROM quiz_answers');
+        const { rows: [quizParticipationStats] } = await pool.query('SELECT COUNT(DISTINCT user_id) AS total_participants FROM quiz_answers');
+
+        // 3. Book Stats
+        const { rows: [bookStats] } = await pool.query('SELECT COUNT(*) AS total_books, SUM(stock) AS total_stock FROM books');
+        const { rows: [mostBorrowedBook] } = await pool.query(`
+            SELECT b.title, COUNT(br.book_id) as borrow_count
+            FROM borrowings br
+            JOIN books b ON br.book_id = b.id
+            GROUP BY b.title
+            ORDER BY borrow_count DESC
+            LIMIT 1;
+        `);
+
+        // 4. Borrowing Stats
+        const { rows: [borrowingStats] } = await pool.query(`
+            SELECT
+                COUNT(*) AS total_borrowings,
+                COUNT(CASE WHEN status = 'borrowed' THEN 1 END) AS active_borrowings,
+                COUNT(CASE WHEN status = 'returned' THEN 1 END) AS completed_borrowings
+            FROM borrowings;
+        `);
+
+        res.status(200).json({
+            articles: {
+                total: parseInt(articleStats.total_articles, 10),
+            },
+            quizzes: {
+                totalQuestions: parseInt(quizQuestionStats.total_questions, 10),
+                totalAnswers: parseInt(quizAnswerStats.total_answers, 10),
+                totalParticipants: parseInt(quizParticipationStats.total_participants, 10),
+            },
+            books: {
+                total: parseInt(bookStats.total_books, 10),
+                totalStock: parseInt(bookStats.total_stock, 10) || 0,
+                mostBorrowed: mostBorrowedBook ? mostBorrowedBook.title : 'Belum ada',
+            },
+            borrowings: {
+                total: parseInt(borrowingStats.total_borrowings, 10),
+                active: parseInt(borrowingStats.active_borrowings, 10),
+                completed: parseInt(borrowingStats.completed_borrowings, 10),
+            },
+        });
+    } catch (error) {
+        console.error('Error fetching statistics:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+module.exports = auth(handler);

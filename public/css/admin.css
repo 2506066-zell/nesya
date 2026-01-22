@@ -1,0 +1,111 @@
+/* ==========================================================================
+   ADMIN PANEL STYLESHEET - IPM PANAWUAN
+   ========================================================================== */
+
+@import url('main.css');
+
+:root {
+    --admin-sidebar-width: 250px;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: var(--admin-sidebar-width);
+    background-color: var(--color-surface);
+    border-right: 1px solid var(--color-border);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 2rem;
+    text-decoration: none;
+}
+
+.sidebar .nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1;
+}
+
+.sidebar .nav-menu a {
+    display: block;
+    padding: 0.8rem 1rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.sidebar .nav-menu a:hover {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+}
+
+.sidebar .nav-menu a.active {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+
+.sidebar .logout {
+    margin-top: auto;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.page-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Modern Table Styles */
+.table-container {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: var(--color-surface);
+}
+
+.table th,
+.table td {
+    padding: 1rem;
+    vertical-align: top;
+    border-top: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid var(--color-border);
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.table tbody tr:hover {
+    background-color: var(--color-background);
+}
+
+.table-actions .btn {
+    margin-right: 0.5rem;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.875rem;
+}

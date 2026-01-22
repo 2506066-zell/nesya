@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Users {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  role      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  quizResults Quiz_Results[]
+  borrowings  Borrowings[]
+
+  @@map("users")
+}
+
+model Articles {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  author    String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("articles")
+}
+
+model Quizzes {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  questions   Questions[]
+  quizResults Quiz_Results[]
+
+  @@map("quizzes")
+}
+
+model Questions {
+  id            String @id @default(cuid())
+  quizId        String
+  question      String
+  options       Json
+  correctAnswer String @map("correct_answer")
+
+  quiz Quizzes @relation(fields: [quizId], references: [id])
+
+  @@map("questions")
+}
+
+model Quiz_Results {
+  id        String   @id @default(cuid())
+  userId    String
+  quizId    String
+  score     Int
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user Users   @relation(fields: [userId], references: [id])
+  quiz Quizzes @relation(fields: [quizId], references: [id])
+
+  @@map("quiz_results")
+}
+
+model Books {
+  id     String @id @default(cuid())
+  title  String
+  author String
+  status String @default("available") // available | borrowed
+
+  borrowings Borrowings[]
+
+  @@map("books")
+}
+
+model Borrowings {
+  id          String    @id @default(cuid())
+  userId      String
+  bookId      String
+  borrowDate  DateTime  @map("borrow_date")
+  returnDate  DateTime? @map("return_date")
+  status      String
+
+  user Users @relation(fields: [userId], references: [id])
+  book Books @relation(fields: [bookId], references: [id])
+
+  @@map("borrowings")
+}

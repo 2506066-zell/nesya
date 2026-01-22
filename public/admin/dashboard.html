@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin IPM Panawuan</title>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <a href="dashboard.html" class="logo">IPM Admin</a>
+        <ul class="nav-menu">
+            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+            <li><a href="articles.html">Artikel</a></li>
+            <li><a href="quiz.html">Kuis</a></li>
+            <li><a href="#">Peminjaman</a></li>
+            <li><a href="#">Anggota</a></li>
+        </ul>
+        <div class="logout">
+            <a href="#" id="logout-button" class="btn btn-secondary">Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <h1 class="page-title">Dashboard</h1>
+        <p style="margin-bottom: 2rem; font-size: 1.1rem; color: var(--color-text-secondary);">Selamat datang kembali, Admin!</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Artikel</h5>
+                    <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">12</p>
+                    <p class="text-muted">Artikel telah dipublikasikan</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Kuis</h5>
+                    <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">5</p>
+                    <p class="text-muted">Kuis aktif</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Anggota Terdaftar</h5>
+                    <p style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">87</p>
+                    <p class="text-muted">Total anggota</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (!user || user.role !== 'admin') {
+                localStorage.removeItem('user');
+                window.location.href = '/login.html';
+                return;
+            }
+
+            document.getElementById('logout-button').addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('user');
+                window.location.href = '/login.html';
+            });
+        });
+    </script>
+</body>
+</html>
