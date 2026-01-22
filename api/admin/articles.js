@@ -1,5 +1,5 @@
-import prisma from '../lib/prisma.js';
-import { adminOnly } from '../../middleware/auth.js';
+import prisma from '../_lib/prisma.js';
+import { adminOnly } from '../_middleware/auth.js';
 
 async function handler(req, res) {
     // Asumsi: Middleware akan menangani otentikasi dan otorisasi.

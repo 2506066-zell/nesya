@@ -1,5 +1,5 @@
-import prisma from './lib/prisma.js';
-import authMiddleware from './middleware/auth.js';
+import prisma from './_lib/prisma.js';
+import authMiddleware from './_middleware/auth.js';
 
 async function handler(req, res) {
     if (req.method !== 'POST') {
